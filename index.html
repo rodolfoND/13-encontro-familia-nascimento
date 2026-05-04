@@ -577,6 +577,12 @@
         gap: 16px;
         margin-bottom: 24px;
       }
+      @keyframes counter-pop {
+        0%   { transform: scale(0.6); opacity: 0.2; }
+        60%  { transform: scale(1.25); opacity: 1; }
+        80%  { transform: scale(0.95); }
+        100% { transform: scale(1); opacity: 1; }
+      }
       .counter-number {
         font-size: 5.5rem;
         font-weight: 900;
@@ -584,10 +590,8 @@
         line-height: 1;
         font-variant-numeric: tabular-nums;
         text-shadow: 0 0 40px rgba(250,204,21,0.4);
-        transition: transform 0.15s ease;
-      }
-      .counter-number.bump {
-        transform: scale(1.15);
+        display: inline-block;
+        animation: counter-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
       }
       .counter-person-icon {
         font-size: 2.5rem;
@@ -840,28 +844,23 @@
 
       /* ---------- Count-Up ---------- */
       function useCountUp(target, duration) {
-        var dur = duration || 1800;
+        var dur = duration || 2200;
         var state = useState(0);
         var count = state[0];
         var setCount = state[1];
-        var bumpState = useState(false);
-        var bump = bumpState[0];
-        var setBump = bumpState[1];
 
         useEffect(function () {
           var start = null;
-          var from = 0;
+          var lastVal = -1;
           function step(ts) {
             if (!start) start = ts;
             var progress = Math.min((ts - start) / dur, 1);
-            // ease-out cubic
+            // ease-out cubic: começa rápido, desacelera no final
             var eased = 1 - Math.pow(1 - progress, 3);
-            var current = Math.round(from + eased * (target - from));
-            setCount(current);
-            if (current !== from) {
-              setBump(true);
-              setTimeout(function () { setBump(false); }, 120);
-              from = current;
+            var current = Math.round(eased * target);
+            if (current !== lastVal) {
+              lastVal = current;
+              setCount(current);
             }
             if (progress < 1) requestAnimationFrame(step);
           }
@@ -869,21 +868,19 @@
           return function () { cancelAnimationFrame(raf); };
         }, [target]);
 
-        return { count: count, bump: bump };
+        return count;
       }
 
       function ParticipantCounter(props) {
         var total = props.total || 5;
-        var result = useCountUp(total, 2000);
-        var count = result.count;
-        var bump = result.bump;
+        var count = useCountUp(total, 2200);
         return (
           <section className="counter-section">
             <div className="counter-inner">
               <div className="counter-label">🎉 Confirmados até agora</div>
               <div className="counter-number-wrap">
                 <span className="counter-person-icon">👨‍👩‍👧‍👦</span>
-                <span className={"counter-number" + (bump ? " bump" : "")}>{count}</span>
+                <span key={count} className="counter-number">{count}</span>
               </div>
               <div className="counter-subtitle">
                 <span className="counter-pulse"></span>
@@ -1446,4 +1443,5 @@
                     </a>
                   </div>
 
-                  <div classNa
+                  <div className="hotel-card">
+                    <d
