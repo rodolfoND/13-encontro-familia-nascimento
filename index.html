@@ -549,6 +549,41 @@
         line-height: 1.7;
       }
 
+      /* Distances */
+      .dist-section { background: var(--white); padding: 72px 24px; }
+      .dist-inner { max-width: 900px; margin: 0 auto; }
+      .dist-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 12px;
+      }
+      .dist-card {
+        display: flex; align-items: center; gap: 16px;
+        background: var(--gray-100);
+        border-radius: 12px; padding: 14px 18px;
+        border-left: 4px solid var(--blue-700);
+        transition: transform 0.15s, box-shadow 0.15s;
+      }
+      .dist-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+      .dist-card.far { border-left-color: #F59E0B; }
+      .dist-card.very-far { border-left-color: #EF4444; }
+      .dist-rank {
+        font-size: 0.75rem; font-weight: 800; color: var(--gray-500);
+        min-width: 20px; text-align: center;
+      }
+      .dist-info { flex: 1; }
+      .dist-city { font-weight: 700; font-size: 0.95rem; color: var(--blue-900); }
+      .dist-state { font-size: 0.75rem; color: var(--gray-500); }
+      .dist-nums { text-align: right; }
+      .dist-km { font-size: 1.1rem; font-weight: 800; color: var(--blue-700); }
+      .dist-card.far .dist-km { color: #D97706; }
+      .dist-card.very-far .dist-km { color: #DC2626; }
+      .dist-time { font-size: 0.75rem; color: var(--gray-500); margin-top: 2px; }
+      .dist-disclaimer {
+        text-align: center; margin-top: 20px;
+        font-size: 0.8rem; color: var(--gray-500);
+      }
+
       /* Hotels */
       .hotels-section {
         background: var(--blue-50);
@@ -1186,6 +1221,49 @@
               </div>
             </div>
 
+            {/* Distâncias */}
+            <section className="dist-section" id="distancias">
+              <div className="dist-inner">
+                <div className="section-label">Como chegar</div>
+                <h2 className="section-title">Distâncias até o Sítio</h2>
+                <p className="section-desc">
+                  O sítio fica no Povoado da Matinha, Pará de Minas — MG. Veja abaixo a distância estimada a partir das principais cidades da família.
+                </p>
+                <div className="dist-grid">
+                  {[
+                    { city: "Pará de Minas",            state: "MG", km: 15,  time: "~20 min",  cls: "" },
+                    { city: "Nova Serrana",              state: "MG", km: 55,  time: "~45 min",  cls: "" },
+                    { city: "Cachoeira da Prata",        state: "MG", km: 60,  time: "~50 min",  cls: "" },
+                    { city: "Sete Lagoas",               state: "MG", km: 85,  time: "~1h",      cls: "" },
+                    { city: "Belo Horizonte",            state: "MG", km: 120, time: "~1h30",    cls: "" },
+                    { city: "Lagoa Santa",               state: "MG", km: 140, time: "~1h45",    cls: "far" },
+                    { city: "Congonhas do Norte",        state: "MG", km: 220, time: "~2h45",    cls: "far" },
+                    { city: "Conceição do Mato Dentro",  state: "MG", km: 235, time: "~3h",      cls: "far" },
+                    { city: "Gouveia",                   state: "MG", km: 290, time: "~3h30",    cls: "far" },
+                    { city: "São Paulo",                 state: "SP", km: 610, time: "~7h",      cls: "very-far" },
+                    { city: "Araçoiaba da Serra",        state: "SP", km: 660, time: "~7h30",    cls: "very-far" },
+                  ].map(function(item, i) {
+                    return (
+                      <div className={"dist-card " + item.cls} key={item.city}>
+                        <div className="dist-rank">#{i + 1}</div>
+                        <div className="dist-info">
+                          <div className="dist-city">{item.city}</div>
+                          <div className="dist-state">{item.state}</div>
+                        </div>
+                        <div className="dist-nums">
+                          <div className="dist-km">~{item.km} km</div>
+                          <div className="dist-time">{item.time}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="dist-disclaimer">
+                  📍 Distâncias e tempos estimados por estrada a partir do centro de cada cidade. Podem variar conforme rota e trânsito.
+                </p>
+              </div>
+            </section>
+
             {/* Hotéis */}
             <section className="hotels-section" id="hoteis">
               <div className="hotels-inner">
@@ -1341,4 +1419,3 @@
     </script>
   </body>
 </html>
-                                                    
