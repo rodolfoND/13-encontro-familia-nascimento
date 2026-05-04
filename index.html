@@ -1,0 +1,1322 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>13º Encontro Família Nascimento — Set/2026</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌻</text></svg>"
+    />
+
+    <!-- React + Babel via CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.23.6/babel.min.js"></script>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --blue-900: #0f2a6b;
+        --blue-800: #1a3a8f;
+        --blue-700: #1e4bb8;
+        --blue-500: #2563eb;
+        --blue-100: #dbeafe;
+        --blue-50: #eff6ff;
+        --yellow-400: #fbbf24;
+        --yellow-300: #fcd34d;
+        --yellow-100: #fef3c7;
+        --yellow-50: #fffbeb;
+        --gray-900: #111827;
+        --gray-700: #374151;
+        --gray-500: #6b7280;
+        --gray-200: #e5e7eb;
+        --gray-100: #f3f4f6;
+        --white: #ffffff;
+        --radius: 14px;
+        --shadow: 0 4px 24px rgba(15, 42, 107, 0.1);
+        --shadow-lg: 0 8px 40px rgba(15, 42, 107, 0.16);
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: var(--gray-100);
+        color: var(--gray-900);
+        line-height: 1.6;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* Navbar */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--blue-900);
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+      }
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--white);
+      }
+      .navbar-badge {
+        background: var(--yellow-400);
+        color: var(--blue-900);
+        font-size: 0.7rem;
+        font-weight: 800;
+        padding: 2px 8px;
+        border-radius: 20px;
+      }
+      .navbar-links {
+        display: flex;
+        gap: 24px;
+        list-style: none;
+      }
+      .navbar-links a {
+        color: var(--blue-100);
+        font-size: 0.88rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .navbar-links a:hover {
+        color: var(--yellow-300);
+      }
+
+      /* Hero */
+      .hero {
+        background: linear-gradient(
+          135deg,
+          var(--blue-900) 0%,
+          var(--blue-700) 60%,
+          #1e3faa 100%
+        );
+        position: relative;
+        overflow: hidden;
+        padding: 80px 24px 100px;
+        text-align: center;
+        color: var(--white);
+      }
+      .hero-edition {
+        display: inline-block;
+        background: var(--yellow-400);
+        color: var(--blue-900);
+        font-size: 0.8rem;
+        font-weight: 800;
+        padding: 4px 16px;
+        border-radius: 20px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+      .hero h1 {
+        font-size: clamp(2.2rem, 6vw, 4rem);
+        font-weight: 900;
+        line-height: 1.05;
+        margin-bottom: 16px;
+      }
+      .hero h1 span {
+        color: var(--yellow-300);
+      }
+      .hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+        color: var(--blue-100);
+        margin-bottom: 36px;
+        max-width: 580px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-date-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1.5px solid rgba(255, 255, 255, 0.25);
+        border-radius: 50px;
+        padding: 12px 28px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 36px;
+      }
+      .countdown-wrap {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+      }
+      .countdown-unit {
+        text-align: center;
+        min-width: 60px;
+      }
+      .countdown-num {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #fff;
+        display: block;
+        line-height: 1;
+      }
+      .countdown-label {
+        font-size: 0.65rem;
+        color: #bfdbfe;
+        margin-top: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .hero-cta {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .btn-primary {
+        background: var(--yellow-400);
+        color: var(--blue-900);
+        font-weight: 800;
+        font-size: 1rem;
+        padding: 14px 32px;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4);
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(251, 191, 36, 0.5);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--white);
+        font-weight: 700;
+        font-size: 1rem;
+        padding: 13px 30px;
+        border-radius: 50px;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .btn-outline:hover {
+        border-color: var(--white);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      /* Photo Section */
+      .photo-section {
+        background: var(--blue-900);
+        padding: 72px 24px;
+        text-align: center;
+      }
+      .photo-section .section-label {
+        color: var(--yellow-300);
+      }
+      .photo-section .section-title {
+        color: var(--white);
+        margin-bottom: 8px;
+      }
+      .photo-subtitle {
+        color: var(--blue-100);
+        font-size: 1rem;
+        max-width: 560px;
+        margin: 0 auto 40px;
+      }
+      .photo-frame-wrap {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .photo-frame {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+        border: 3px solid rgba(251, 191, 36, 0.35);
+        position: relative;
+        line-height: 0;
+      }
+      .photo-frame img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.6s ease;
+      }
+      .photo-frame:hover img {
+        transform: scale(1.015);
+      }
+      .photo-caption {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 20px;
+        color: var(--blue-100);
+        font-size: 0.82rem;
+        opacity: 0.7;
+        font-style: italic;
+      }
+
+      /* Sections */
+      .section {
+        padding: 72px 24px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .section-label {
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: var(--blue-500);
+        margin-bottom: 8px;
+      }
+      .section-title {
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+        font-weight: 800;
+        color: var(--blue-900);
+        margin-bottom: 12px;
+        line-height: 1.2;
+      }
+      .section-desc {
+        font-size: 1.05rem;
+        color: var(--gray-500);
+        max-width: 640px;
+        margin-bottom: 48px;
+      }
+
+      /* Info Cards */
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 24px;
+      }
+      .info-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 28px 24px;
+        box-shadow: var(--shadow);
+        border-top: 4px solid var(--blue-700);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .info-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+      .info-card.accent {
+        border-top-color: var(--yellow-400);
+      }
+      .info-card-icon {
+        width: 48px;
+        height: 48px;
+        background: var(--blue-50);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        font-size: 1.5rem;
+      }
+      .info-card.accent .info-card-icon {
+        background: var(--yellow-50);
+      }
+      .info-card h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--blue-900);
+        margin-bottom: 8px;
+      }
+      .info-card p,
+      .info-card li {
+        font-size: 0.92rem;
+        color: var(--gray-700);
+        line-height: 1.65;
+      }
+      .info-card ul {
+        list-style: none;
+        padding: 0;
+      }
+      .info-card ul li {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 4px;
+      }
+      .info-card ul li::before {
+        content: "✓";
+        color: var(--blue-700);
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .info-card.accent ul li::before {
+        color: #d97706;
+      }
+      .badge-tbd {
+        display: inline-block;
+        background: var(--yellow-100);
+        color: #92400e;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        margin-top: 8px;
+      }
+
+      /* Payment */
+      .payment-section {
+        background: linear-gradient(135deg, var(--blue-900), var(--blue-800));
+        padding: 72px 24px;
+      }
+      .payment-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .payment-section .section-label {
+        color: var(--yellow-300);
+      }
+      .payment-section .section-title {
+        color: var(--white);
+      }
+      .payment-section .section-desc {
+        color: var(--blue-100);
+      }
+      .payment-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+      }
+      .payment-card {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1.5px solid rgba(255, 255, 255, 0.15);
+        border-radius: var(--radius);
+        padding: 28px 24px;
+      }
+      .payment-card h3 {
+        color: var(--yellow-300);
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+      .payment-card p,
+      .payment-card li {
+        color: var(--blue-100);
+        font-size: 0.92rem;
+        line-height: 1.65;
+      }
+      .payment-card ul {
+        list-style: none;
+        padding: 0;
+      }
+      .payment-card ul li {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+      .payment-card ul li::before {
+        content: "→";
+        color: var(--yellow-400);
+        flex-shrink: 0;
+      }
+      .pix-box {
+        background: rgba(251, 191, 36, 0.12);
+        border: 1.5px dashed var(--yellow-400);
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-top: 16px;
+        text-align: center;
+      }
+      .pix-key {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--yellow-300);
+        letter-spacing: 0.03em;
+      }
+      .pix-label {
+        font-size: 0.78rem;
+        color: var(--blue-100);
+        margin-top: 4px;
+      }
+
+      /* FAQ */
+      .faq-list {
+        max-width: 780px;
+      }
+      .faq-item {
+        border-bottom: 1.5px solid var(--gray-200);
+      }
+      .faq-question {
+        width: 100%;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 0;
+        cursor: pointer;
+        text-align: left;
+        gap: 16px;
+      }
+      .faq-question span {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--blue-900);
+      }
+      .faq-chevron {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        background: var(--blue-50);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          transform 0.3s,
+          background 0.2s;
+        color: var(--blue-700);
+        font-style: normal;
+        font-size: 1rem;
+      }
+      .faq-chevron.open {
+        transform: rotate(180deg);
+        background: var(--blue-700);
+        color: var(--white);
+      }
+      .faq-answer {
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transition:
+          max-height 0.35s ease,
+          opacity 0.3s;
+      }
+      .faq-answer.open {
+        max-height: 300px;
+        opacity: 1;
+      }
+      .faq-answer p {
+        padding-bottom: 20px;
+        font-size: 0.95rem;
+        color: var(--gray-700);
+        line-height: 1.7;
+      }
+
+      /* Hotels */
+      .hotels-section {
+        background: var(--blue-50);
+        padding: 72px 24px;
+      }
+      .hotels-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .hotels-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+      .hotel-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 28px 24px;
+        box-shadow: var(--shadow);
+        border-top: 4px solid var(--blue-700);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .hotel-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+      .hotel-name {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--blue-900);
+      }
+      .hotel-price {
+        display: inline-block;
+        background: var(--yellow-100);
+        color: #92400e;
+        font-size: 0.9rem;
+        font-weight: 700;
+        padding: 3px 12px;
+        border-radius: 20px;
+      }
+      .hotel-note {
+        font-size: 0.85rem;
+        color: var(--gray-500);
+      }
+      .hotel-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 8px;
+        background: var(--blue-700);
+        color: var(--white);
+        font-size: 0.85rem;
+        font-weight: 700;
+        padding: 8px 18px;
+        border-radius: 50px;
+        width: fit-content;
+        transition: background 0.2s;
+      }
+      .hotel-link:hover {
+        background: var(--blue-900);
+      }
+      .hotel-disclaimer {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 0.82rem;
+        color: var(--gray-500);
+        padding: 12px 20px;
+        background: var(--white);
+        border-radius: 10px;
+        border: 1px solid var(--gray-200);
+      }
+
+      /* Organizers */
+      .org-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: center;
+      }
+      .org-pill {
+        background: var(--white);
+        border: 2px solid var(--blue-100);
+        border-radius: 50px;
+        padding: 10px 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: var(--shadow);
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--blue-900);
+      }
+      .org-pill.lead {
+        border-color: var(--yellow-300);
+      }
+      .org-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-weight: 800;
+        font-size: 0.88rem;
+        flex-shrink: 0;
+      }
+      .org-pill.lead .org-avatar {
+        background: linear-gradient(135deg, #d97706, var(--yellow-400));
+      }
+      .org-lead-tag {
+        font-size: 0.72rem;
+        color: #d97706;
+        font-weight: 700;
+      }
+
+      /* Footer */
+      .footer {
+        background: var(--blue-900);
+        color: var(--blue-100);
+        padding: 40px 24px;
+        text-align: center;
+      }
+      .footer-logo {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: var(--white);
+        margin-bottom: 8px;
+      }
+      .footer-tagline {
+        font-size: 0.88rem;
+        margin-bottom: 20px;
+      }
+      .footer hr {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        margin: 20px auto;
+        max-width: 200px;
+      }
+      .footer-copy {
+        font-size: 0.8rem;
+        opacity: 0.6;
+      }
+
+      @media (max-width: 640px) {
+        .navbar-links {
+          display: none;
+        }
+        .hero {
+          padding: 60px 20px 80px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      var useState = React.useState;
+      var useEffect = React.useEffect;
+
+      /* ---------- Countdown ---------- */
+      function useCountdown(targetDate) {
+        var initial = new Date(targetDate).getTime() - Date.now();
+        var state = useState(initial);
+        var diff = state[0];
+        var setDiff = state[1];
+
+        useEffect(function () {
+          var id = setInterval(function () {
+            setDiff(new Date(targetDate).getTime() - Date.now());
+          }, 1000);
+          return function () {
+            clearInterval(id);
+          };
+        }, []);
+
+        return {
+          days: Math.max(0, Math.floor(diff / 86400000)),
+          hours: Math.max(0, Math.floor((diff % 86400000) / 3600000)),
+          minutes: Math.max(0, Math.floor((diff % 3600000) / 60000)),
+          seconds: Math.max(0, Math.floor((diff % 60000) / 1000)),
+        };
+      }
+
+      function CountdownUnit(props) {
+        var value = props.value;
+        var label = props.label;
+        return (
+          <div className="countdown-unit">
+            <span className="countdown-num">
+              {String(value).padStart(2, "0")}
+            </span>
+            <span className="countdown-label">{label}</span>
+          </div>
+        );
+      }
+
+      /* ---------- FAQ ---------- */
+      var faqs = [
+        {
+          q: "Onde será o encontro?",
+          a: "O encontro será em um sítio no Povoado da Matinha, em Pará de Minas — MG. Por ser zona rural não há endereço convencional, mas a localização GPS está disponível no card de informações da página. Em breve também divulgaremos um vídeo mostrando como chegar!",
+        },
+        {
+          q: "Tem lugar para dormir no sítio?",
+          a: "Sim! O sítio comporta cerca de 30 pessoas nos dormitórios. O espaço é amplo, então quem se sentir confortável em trazer colchão ou barraca facilitaria bastante. Além disso, há vagas para dormir na casa do Rodolfo e na casa da Margarete — entre em contato com a organização. Para quem preferir hotel, indicamos opções na seção de hospedagem.",
+        },
+        {
+          q: "O que está incluso nos R$ 250?",
+          a: "O valor cobre alimentação completa durante os dois dias (19 e 20/09), incluindo café da manhã, almoço, lanche e jantar, além de água, sucos e refrigerantes. Bebidas alcoólicas não estão inclusas.",
+        },
+        {
+          q: "Posso levar minha própria bebida alcoólica?",
+          a: "Sim! Cada participante que desejar consumir bebidas alcoólicas deve trazer a sua bebida preferida. O evento não fornece bebidas alcoólicas.",
+        },
+        {
+          q: "Crianças pagam o valor cheio?",
+          a: "Crianças de até 12 anos não pagam! A partir de 13 anos o valor normal de R$ 250 se aplica.",
+        },
+        {
+          q: "Como faço o pagamento?",
+          a: 'O pagamento pode ser feito via PIX. Os dados estão na seção "Pagamento" desta página. Após pagar, envie o comprovante para a organização confirmar sua presença.',
+        },
+        {
+          q: "Qual o prazo para confirmar presença e pagar?",
+          a: "O prazo para confirmar presença e realizar o pagamento é 31 de agosto de 2026. Não deixe para a última hora — as vagas são limitadas!",
+        },
+        {
+          q: "Posso ir apenas um dos dois dias?",
+          a: "O encontro é pensado como um evento de dois dias. Se só puder ir em um deles, entre em contato com a organização para verificar as condições.",
+        },
+        {
+          q: "Há estacionamento no local?",
+          a: "Sim! O sítio conta com estacionamento descoberto com espaço para todos os veículos. 🚗",
+        },
+        {
+          q: "Posso levar pets?",
+          a: "Não. O sítio não permite animais de estimação. Por favor, deixe os peludos em casa com alguém de confiança. 🐾",
+        },
+        {
+          q: "Tem piscina no sítio?",
+          a: "Sim! O sítio tem piscina. Quem quiser aproveitar é só trazer a roupa de banho! 🏊",
+        },
+        {
+          q: "Tem sauna no sítio?",
+          a: "Sim! O sítio também conta com sauna. Traga sua roupa de banho e aproveite! 🧖",
+        },
+      ];
+
+      function FAQ() {
+        var openState = useState(null);
+        var open = openState[0];
+        var setOpen = openState[1];
+
+        return (
+          <div className="faq-list">
+            {faqs.map(function (item, i) {
+              var isOpen = open === i;
+              return (
+                <div className="faq-item" key={i}>
+                  <button
+                    className="faq-question"
+                    onClick={function () {
+                      setOpen(isOpen ? null : i);
+                    }}
+                  >
+                    <span>{item.q}</span>
+                    <span className={"faq-chevron" + (isOpen ? " open" : "")}>
+                      ▾
+                    </span>
+                  </button>
+                  <div className={"faq-answer" + (isOpen ? " open" : "")}>
+                    <p>{item.a}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+
+      /* ---------- App ---------- */
+      function App() {
+        var cd = useCountdown("2026-09-19T10:00:00");
+
+        function scrollTo(id) {
+          var el = document.getElementById(id);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }
+
+        return (
+          <div>
+            {/* Navbar */}
+            <nav className="navbar">
+              <div className="navbar-brand">
+                <span>🌻 Família Nascimento</span>
+                <span className="navbar-badge">13ª EDIÇÃO</span>
+              </div>
+              <ul className="navbar-links">
+                <li>
+                  <a href="#informacoes">Informações</a>
+                </li>
+                <li>
+                  <a href="#pagamento">Pagamento</a>
+                </li>
+                <li>
+                  <a href="#faq">FAQ</a>
+                </li>
+                <li>
+                  <a href="#hoteis">Hotéis</a>
+                </li>
+              </ul>
+            </nav>
+
+            {/* Hero */}
+            <section className="hero">
+              <div className="hero-edition">13º Encontro · Edição 2026</div>
+              <h1>
+                Família
+                <br />
+                <span>Nascimento</span>
+              </h1>
+              <p className="hero-subtitle">
+                Um fim de semana inesquecível rodeado por toda a família.
+                Diversão, comida boa e bebida gelada, pelo 13º ano! 🎉
+              </p>
+              <div className="hero-date-badge">
+                📅 &nbsp;19 e 20 de Setembro de 2026
+              </div>
+              <div className="countdown-wrap">
+                <CountdownUnit value={cd.days} label="dias" />
+                <CountdownUnit value={cd.hours} label="horas" />
+                <CountdownUnit value={cd.minutes} label="minutos" />
+                <CountdownUnit value={cd.seconds} label="segundos" />
+              </div>
+              <div className="hero-cta">
+                <button
+                  className="btn-primary"
+                  onClick={function () {
+                    scrollTo("pagamento");
+                  }}
+                >
+                  💰 Ver como pagar
+                </button>
+                <button
+                  className="btn-outline"
+                  onClick={function () {
+                    scrollTo("faq");
+                  }}
+                >
+                  Tirar dúvidas
+                </button>
+              </div>
+            </section>
+
+            {/* Foto da Família */}
+            <section className="photo-section">
+              <div className="section-label">Nossa história em imagens</div>
+              <h2 className="section-title">A família reunida 💛</h2>
+              <p className="photo-subtitle">
+                Momentos como esse são o motivo de tudo. Em setembro de 2026,
+                escrevemos mais um capítulo dessa história.
+              </p>
+              <div className="photo-frame-wrap">
+                <div className="photo-frame">
+                  <img
+                    src="foto-familia.jpg"
+                    alt="Foto da família Nascimento reunida no encontro anterior"
+                  />
+                </div>
+                <p className="photo-caption">
+                  📷 @raquelpequenos detalhes · Encontro anterior da família
+                  Nascimento
+                </p>
+              </div>
+            </section>
+
+            {/* Informações */}
+            <div id="informacoes" style={{ background: "var(--gray-100)" }}>
+              <div className="section">
+                <div className="section-label">O que você precisa saber</div>
+                <h2 className="section-title">Informações do Evento</h2>
+                <p className="section-desc">
+                  Tudo organizado para que você aproveite ao máximo esses dois
+                  dias juntos!
+                </p>
+
+                <div className="info-grid">
+                  <div className="info-card">
+                    <div className="info-card-icon">📅</div>
+                    <h3>Data &amp; Local</h3>
+                    <p>
+                      <strong>19 e 20 de setembro de 2026</strong>
+                      <br />
+                      (sábado e domingo)
+                      <br />
+                      <br />
+                      🕙 Início previsto: <strong>10h do dia 19</strong>
+                    </p>
+                    <br />
+                    <p>
+                      <strong>Local:</strong> Sítio no Povoado da Matinha
+                      <br />
+                      Pará de Minas — MG
+                      <br />
+                      <span
+                        style={{
+                          fontSize: "0.85rem",
+                          color: "var(--gray-500)",
+                        }}
+                      >
+                        Zona rural, sem endereço convencional
+                      </span>
+                    </p>
+                    <br />
+                    <a
+                      href="https://maps.app.goo.gl/rjqkGf3HsMYyKNQG7?g_st=aw"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
+                        background: "var(--blue-700)",
+                        color: "#fff",
+                        fontSize: "0.82rem",
+                        fontWeight: 700,
+                        padding: "7px 14px",
+                        borderRadius: 50,
+                        textDecoration: "none",
+                      }}
+                    >
+                      📍 Ver localização no GPS
+                    </a>
+                    <br />
+                    <br />
+                    <p
+                      style={{ fontSize: "0.82rem", color: "var(--gray-500)" }}
+                    >
+                      🎬 Em breve: vídeo mostrando como chegar!
+                    </p>
+                  </div>
+
+                  <div className="info-card accent">
+                    <div className="info-card-icon">💵</div>
+                    <h3>Valor por Pessoa</h3>
+                    <p
+                      style={{
+                        fontSize: "2.2rem",
+                        fontWeight: 900,
+                        color: "var(--blue-900)",
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      R$ 250
+                    </p>
+                    <p
+                      style={{
+                        color: "var(--gray-500)",
+                        fontSize: "0.88rem",
+                        marginBottom: 12,
+                      }}
+                    >
+                      por pessoa
+                    </p>
+                    <p style={{ fontWeight: 700, marginBottom: 6 }}>Incluso:</p>
+                    <ul>
+                      <li>Alimentação completa nos dois dias</li>
+                      <li>Café da manhã, almoço e jantar</li>
+                      <li>Água, sucos e refrigerantes</li>
+                    </ul>
+                  </div>
+
+                  <div className="info-card">
+                    <div className="info-card-icon">🍻</div>
+                    <h3>Bebidas Alcoólicas</h3>
+                    <p>
+                      Bebidas alcoólicas <strong>não estão inclusas</strong> no
+                      valor. Quem quiser beber deve trazer a sua{" "}
+                      <strong>bebida favorita</strong>!
+                    </p>
+                    <br />
+                    <p
+                      style={{ color: "var(--gray-500)", fontSize: "0.88rem" }}
+                    >
+                      Organize-se com os primos e montem um bar coletivo 😄
+                    </p>
+                  </div>
+
+                  <div className="info-card">
+                    <div className="info-card-icon">🛏️</div>
+                    <h3>Acomodação</h3>
+                    <p>
+                      O sítio comporta cerca de <strong>30 pessoas</strong> nos
+                      dormitórios disponíveis.
+                    </p>
+                    <br />
+                    <p
+                      style={{ fontSize: "0.88rem", color: "var(--gray-700)" }}
+                    >
+                      O espaço é amplo — quem se sentir confortável em trazer{" "}
+                      <strong>colchão ou barraca</strong> facilitaria bastante!
+                      🏕️
+                    </p>
+                    <br />
+                    <p
+                      style={{ fontSize: "0.88rem", color: "var(--gray-700)" }}
+                    >
+                      🏠 Também há vagas para dormir na{" "}
+                      <strong>casa do Rodolfo</strong> e na{" "}
+                      <strong>casa da Margarete</strong> — entre em contato com
+                      a organização para mais detalhes.
+                    </p>
+                    <br />
+                    <p
+                      style={{ fontSize: "0.88rem", color: "var(--gray-500)" }}
+                    >
+                      Para quem preferir hotel, listamos opções na cidade mais
+                      abaixo.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Pagamento */}
+            <section className="payment-section" id="pagamento">
+              <div className="payment-inner">
+                <div className="section-label">Como participar</div>
+                <h2 className="section-title">Pagamento</h2>
+                <p className="section-desc">
+                  O pagamento garante sua vaga e cobre todos os custos do
+                  evento.
+                </p>
+
+                <div className="payment-grid">
+                  <div className="payment-card">
+                    <h3>💸 PIX</h3>
+                    <p style={{ marginBottom: 8 }}>
+                      Forma mais rápida! Transfira para a chave abaixo:
+                    </p>
+                    <div className="pix-box">
+                      <div className="pix-key">(37) 9 9995-4557</div>
+                      <div className="pix-label">
+                        Chave PIX (telefone) — Rodolfo Nascimento Dimas
+                      </div>
+                      <div className="pix-label" style={{ marginTop: 4 }}>
+                        🏦 Caixa Econômica Federal
+                      </div>
+                    </div>
+                    <p
+                      style={{
+                        marginTop: 12,
+                        fontSize: "0.85rem",
+                        opacity: 0.8,
+                      }}
+                    >
+                      Após pagar, envie o comprovante para confirmar sua
+                      presença.
+                    </p>
+                  </div>
+
+                  <div className="payment-card">
+                    <h3>📋 Instruções</h3>
+                    <ul>
+                      <li>
+                        Pague{" "}
+                        <strong style={{ color: "#FCD34D" }}>
+                          R$ 250 por pessoa
+                        </strong>
+                      </li>
+                      <li>Coloque seu nome completo na descrição</li>
+                      <li>Salve o comprovante</li>
+                      <li>Envie o comprovante via WhatsApp</li>
+                      <li>Aguarde confirmação da vaga</li>
+                    </ul>
+                  </div>
+
+                  <div className="payment-card">
+                    <h3>⏰ Prazo</h3>
+                    <p style={{ marginBottom: 12 }}>
+                      Confirme sua presença e realize o pagamento até{" "}
+                      <strong style={{ color: "#FCD34D" }}>
+                        31 de agosto de 2026
+                      </strong>
+                      .
+                    </p>
+                    <div
+                      style={{
+                        background: "rgba(251,191,36,0.1)",
+                        border: "1.5px solid rgba(251,191,36,0.3)",
+                        borderRadius: 10,
+                        padding: "14px 16px",
+                      }}
+                    >
+                      <p
+                        style={{
+                          color: "#FCD34D",
+                          fontWeight: 700,
+                          fontSize: "0.88rem",
+                        }}
+                      >
+                        ⚠️ Vagas limitadas!
+                      </p>
+                      <p
+                        style={{
+                          color: "#BFDBFE",
+                          fontSize: "0.88rem",
+                          marginTop: 4,
+                        }}
+                      >
+                        Confirme sua presença o quanto antes para garantir seu
+                        lugar.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* FAQ */}
+            <div id="faq" style={{ background: "var(--gray-100)" }}>
+              <div className="section">
+                <div className="section-label">Perguntas frequentes</div>
+                <h2 className="section-title">Ficou com dúvidas?</h2>
+                <p className="section-desc">
+                  Reunimos as perguntas mais comuns abaixo.
+                </p>
+                <FAQ />
+              </div>
+            </div>
+
+            {/* Hotéis */}
+            <section className="hotels-section" id="hoteis">
+              <div className="hotels-inner">
+                <div className="section-label">Onde descansar</div>
+                <h2
+                  className="section-title"
+                  style={{ color: "var(--blue-900)" }}
+                >
+                  Hotéis &amp; Pousadas
+                </h2>
+                <p className="section-desc">
+                  Opções de hospedagem em Pará de Minas para quem preferir ou
+                  precisar pernoitar fora do sítio.
+                </p>
+                <div className="hotels-grid">
+                  <div className="hotel-card">
+                    <div className="hotel-name">🏨 Colonial Palace Hotel</div>
+                    <div>
+                      <span className="hotel-price">~R$ 385 / noite</span>
+                    </div>
+                    <div className="hotel-note">
+                      Hotel tradicional de Pará de Minas com ótima estrutura e
+                      localização central.
+                    </div>
+                    <a
+                      className="hotel-link"
+                      href="https://colonialpalacehotel.com.br/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      🔗 Ver site / Reservar
+                    </a>
+                  </div>
+
+                  <div className="hotel-card">
+                    <div className="hotel-name">🏨 Gran Lord Hotel</div>
+                    <div>
+                      <span className="hotel-price">~R$ 355 / noite</span>
+                    </div>
+                    <div className="hotel-note">
+                      Hospedagem completa no centro de Pará de Minas, com café
+                      da manhã incluso e estacionamento coberto.
+                    </div>
+                    <a
+                      className="hotel-link"
+                      href="https://www.granlordhotel.com.br/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      🔗 Ver site / Reservar
+                    </a>
+                  </div>
+
+                  <div className="hotel-card">
+                    <div className="hotel-name">🏨 Suntory Business Hotel</div>
+                    <div>
+                      <span className="hotel-price">~R$ 300 / noite</span>
+                    </div>
+                    <div className="hotel-note">
+                      Opção mais econômica, com boa estrutura para negócios e
+                      lazer em Pará de Minas.
+                    </div>
+                    <a
+                      className="hotel-link"
+                      href="https://www.suntoryhotel.com.br/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      🔗 Ver site / Reservar
+                    </a>
+                  </div>
+                </div>
+                <div className="hotel-disclaimer">
+                  ⭐ Existem outros hotéis na cidade com preços e qualidades
+                  variadas — os destacados acima são os mais bem avaliados pelos
+                  hóspedes. Preços aproximados por noite, sujeitos a variação
+                  conforme data e tipo de quarto. Confirme disponibilidade
+                  diretamente com o hotel.
+                </div>
+              </div>
+            </section>
+
+            {/* Organizadores */}
+            <div style={{ background: "var(--gray-100)" }}>
+              <div className="section" style={{ textAlign: "center" }}>
+                <div className="section-label">Organização 2026</div>
+                <h2 className="section-title">Quem está por trás</h2>
+                <p className="section-desc" style={{ margin: "0 auto 40px" }}>
+                  O 13º Encontro é organizado com muito carinho pela família da
+                  Margarete 💛
+                </p>
+                <div className="org-grid">
+                  {[
+                    { name: "Margarete", lead: true },
+                    { name: "Rodolfo", lead: false },
+                    { name: "Carla", lead: false },
+                    { name: "Mariane", lead: false },
+                    { name: "Ana Clara", lead: false },
+                  ].map(function (person) {
+                    return (
+                      <div
+                        className={"org-pill" + (person.lead ? " lead" : "")}
+                        key={person.name}
+                      >
+                        <div className="org-avatar">
+                          {person.name.charAt(0)}
+                        </div>
+                        <span>{person.name}</span>
+                        {person.lead && (
+                          <span className="org-lead-tag">
+                            Organizadora-chefe ⭐
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <footer className="footer">
+              <div className="footer-logo">🌻 Família Nascimento</div>
+              <div className="footer-tagline">
+                13 anos de encontros inesquecíveis — e muitos mais por vir!
+              </div>
+              <hr />
+              <div className="footer-copy">
+                13º Encontro Família Nascimento · 19–20 de Setembro de 2026 ·
+                Organização: Margarete e família
+              </div>
+              <div className="footer-copy">
+                Desenvolvido por{" "}
+                <a
+                  href="https://www.rodolfonascimento.dev.br/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "var(--yellow-300)",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  Rodolfo Nascimento
+                </a>
+              </div>
+            </footer>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
