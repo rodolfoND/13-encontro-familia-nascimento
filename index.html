@@ -1442,4 +1442,121 @@
                   <div className="hotel-card">
                     <div className="hotel-name">🏨 Gran Lord Hotel</div>
                     <div>
-           
+                      <span className="hotel-price">~R$ 355 / noite</span>
+                    </div>
+                    <div className="hotel-note">
+                      Hospedagem completa no centro de Pará de Minas, com café
+                      da manhã incluso e estacionamento coberto.
+                    </div>
+                    <a
+                      className="hotel-link"
+                      href="https://www.granlordhotel.com.br/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      🔗 Ver site / Reservar
+                    </a>
+                  </div>
+
+                  <div className="hotel-card">
+                    <div className="hotel-name">🏨 Suntory Business Hotel</div>
+                    <div>
+                      <span className="hotel-price">~R$ 300 / noite</span>
+                    </div>
+                    <div className="hotel-note">
+                      Opção mais econômica, com boa estrutura para negócios e
+                      lazer em Pará de Minas.
+                    </div>
+                    <a
+                      className="hotel-link"
+                      href="https://www.suntoryhotel.com.br/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      🔗 Ver site / Reservar
+                    </a>
+                  </div>
+                </div>
+                <div className="hotel-disclaimer">
+                  ⭐ Existem outros hotéis na cidade com preços e qualidades
+                  variadas — os destacados acima são os mais bem avaliados pelos
+                  hóspedes. Preços aproximados por noite, sujeitos a variação
+                  conforme data e tipo de quarto. Confirme disponibilidade
+                  diretamente com o hotel.
+                </div>
+              </div>
+            </section>
+
+            {/* Organizadores */}
+            <div style={{ background: "var(--gray-100)" }}>
+              <div className="section" style={{ textAlign: "center" }}>
+                <div className="section-label">Organização 2026</div>
+                <h2 className="section-title">Quem está por trás</h2>
+                <p className="section-desc" style={{ margin: "0 auto 40px" }}>
+                  O 13º Encontro é organizado com muito carinho pela família da
+                  Margarete 💛
+                </p>
+                <div className="org-grid">
+                  {[
+                    { name: "Margarete", lead: true },
+                    { name: "Rodolfo", lead: false },
+                    { name: "Carla", lead: false },
+                    { name: "Mariane", lead: false },
+                    { name: "Ana Clara", lead: false },
+                  ].map(function (person) {
+                    return (
+                      <div
+                        className={"org-pill" + (person.lead ? " lead" : "")}
+                        key={person.name}
+                      >
+                        <div className="org-avatar">
+                          {person.name.charAt(0)}
+                        </div>
+                        <span>{person.name}</span>
+                        {person.lead && (
+                          <span className="org-lead-tag">
+                            Organizadora-chefe ⭐
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <footer className="footer">
+              <div className="footer-logo">🌻 Família Nascimento</div>
+              <div className="footer-tagline">
+                13 encontros inesquecíveis — e muitos mais por vir!
+              </div>
+              <hr />
+              <div className="footer-copy">
+                13º Encontro Família Nascimento · 19–20 de Setembro de 2026 ·
+                Organização: Margarete e família
+              </div>
+              <div className="footer-copy">
+                Desenvolvido por{" "}
+                <a
+                  href="https://www.rodolfonascimento.dev.br/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "var(--yellow-300)",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  Rodolfo Nascimento
+                </a>
+              </div>
+            </footer>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
