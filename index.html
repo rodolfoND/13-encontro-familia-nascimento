@@ -872,6 +872,39 @@
         );
       }
 
+      /* ---------- Copy PIX Button ---------- */
+      function CopyPixButton() {
+        var state = useState("Copiar chave PIX");
+        var label = state[0];
+        var setLabel = state[1];
+
+        function handleCopy() {
+          navigator.clipboard.writeText("37999954557").then(function() {
+            setLabel("✅ Copiado!");
+            setTimeout(function() { setLabel("Copiar chave PIX"); }, 2500);
+          });
+        }
+
+        return (
+          <button
+            onClick={handleCopy}
+            style={{
+              marginTop: 12,
+              background: label === "✅ Copiado!" ? "#15803D" : "var(--yellow-400)",
+              color: label === "✅ Copiado!" ? "#fff" : "var(--blue-900)",
+              border: "none", borderRadius: 50,
+              padding: "8px 20px",
+              fontWeight: 800, fontSize: "0.85rem",
+              cursor: "pointer",
+              transition: "background 0.3s, color 0.3s",
+              width: "100%",
+            }}
+          >
+            {label === "✅ Copiado!" ? "✅ Copiado!" : "📋 Copiar chave PIX"}
+          </button>
+        );
+      }
+
       /* ---------- App ---------- */
       function App() {
         var cd = useCountdown("2026-09-19T10:00:00");
@@ -1141,6 +1174,7 @@
                       <div className="pix-label" style={{ marginTop: 4 }}>
                         🏦 Caixa Econômica Federal
                       </div>
+                      <CopyPixButton />
                     </div>
                     <p
                       style={{
@@ -1386,37 +1420,4 @@
 
             {/* Footer */}
             <footer className="footer">
-              <div className="footer-logo">🌻 Família Nascimento</div>
-              <div className="footer-tagline">
-                ntros inesquetíveiãs — e muitos mais por vir!
-              </div>
-              <hr />
-              <div className="footer-copy">
-                13º Encontro Família Nascimento · 19–20 de Setembro de 2026 ·
-                Organização: Margarete e família
-              </div>
-              <div className="footer-copy">
-                Desenvolvido por{" "}
-                <a
-                  href="https://www.rodolfonascimento.dev.br/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    color: "var(--yellow-300)",
-                    fontWeight: 700,
-                    textDecoration: "none",
-                  }}
-                >
-                  Rodolfo Nascimento
-                </a>
-              </div>
-            </footer>
-          </div>
-        );
-      }
-
-      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-    </script>
-  </body>
-</html>
-                                                                                
+              <div className=
