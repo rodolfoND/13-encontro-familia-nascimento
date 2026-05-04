@@ -844,28 +844,25 @@
 
       /* ---------- Count-Up ---------- */
       function useCountUp(target, duration) {
-        var dur = duration || 2200;
+        var dur = duration || 1800;
         var state = useState(0);
         var count = state[0];
         var setCount = state[1];
 
         useEffect(function () {
-          var start = null;
-          var lastVal = -1;
-          function step(ts) {
-            if (!start) start = ts;
-            var progress = Math.min((ts - start) / dur, 1);
-            // ease-out cubic: começa rápido, desacelera no final
-            var eased = 1 - Math.pow(1 - progress, 3);
-            var current = Math.round(eased * target);
-            if (current !== lastVal) {
-              lastVal = current;
-              setCount(current);
-            }
-            if (progress < 1) requestAnimationFrame(step);
+          if (target <= 0) return;
+          var timers = [];
+          for (var i = 1; i <= target; i++) {
+            (function (val) {
+              // ease-in^1.5: começa rápido, desacelera ao se aproximar do total
+              var linearProgress = val / target;
+              var easedProgress = Math.pow(linearProgress, 1.5);
+              var delay = Math.round(easedProgress * dur);
+              var t = setTimeout(function () { setCount(val); }, delay);
+              timers.push(t);
+            })(i);
           }
-          var raf = requestAnimationFrame(step);
-          return function () { cancelAnimationFrame(raf); };
+          return function () { timers.forEach(clearTimeout); };
         }, [target]);
 
         return count;
@@ -1444,4 +1441,5 @@
                   </div>
 
                   <div className="hotel-card">
-                    <d
+                    <div className="hotel-name">🏨 Gran Lord Hotel</div>
+              
