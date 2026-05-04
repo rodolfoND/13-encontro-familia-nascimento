@@ -549,6 +549,69 @@
         line-height: 1.7;
       }
 
+      /* Contador de Participantes */
+      .counter-section {
+        background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 100%);
+        padding: 64px 24px;
+        text-align: center;
+      }
+      .counter-inner { max-width: 700px; margin: 0 auto; }
+      .counter-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--yellow-400);
+        margin-bottom: 12px;
+      }
+      .counter-title {
+        font-size: 1.1rem;
+        color: #bfdbfe;
+        margin-bottom: 32px;
+        font-weight: 400;
+      }
+      .counter-number-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .counter-number {
+        font-size: 5.5rem;
+        font-weight: 900;
+        color: var(--yellow-400);
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        text-shadow: 0 0 40px rgba(250,204,21,0.4);
+        transition: transform 0.15s ease;
+      }
+      .counter-number.bump {
+        transform: scale(1.15);
+      }
+      .counter-person-icon {
+        font-size: 2.5rem;
+        opacity: 0.8;
+      }
+      .counter-subtitle {
+        font-size: 1rem;
+        color: #e0f2fe;
+        font-weight: 500;
+      }
+      .counter-pulse {
+        display: inline-block;
+        width: 10px; height: 10px;
+        background: #4ade80;
+        border-radius: 50%;
+        margin-right: 8px;
+        animation: pulse-dot 1.5s infinite;
+        vertical-align: middle;
+      }
+      @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(0.7); }
+      }
+
       /* Distances */
       .dist-section { background: var(--white); padding: 72px 24px; }
       .dist-inner { max-width: 900px; margin: 0 auto; }
@@ -773,6 +836,65 @@
           minutes: Math.max(0, Math.floor((diff % 3600000) / 60000)),
           seconds: Math.max(0, Math.floor((diff % 60000) / 1000)),
         };
+      }
+
+      /* ---------- Count-Up ---------- */
+      function useCountUp(target, duration) {
+        var dur = duration || 1800;
+        var state = useState(0);
+        var count = state[0];
+        var setCount = state[1];
+        var bumpState = useState(false);
+        var bump = bumpState[0];
+        var setBump = bumpState[1];
+
+        useEffect(function () {
+          var start = null;
+          var from = 0;
+          function step(ts) {
+            if (!start) start = ts;
+            var progress = Math.min((ts - start) / dur, 1);
+            // ease-out cubic
+            var eased = 1 - Math.pow(1 - progress, 3);
+            var current = Math.round(from + eased * (target - from));
+            setCount(current);
+            if (current !== from) {
+              setBump(true);
+              setTimeout(function () { setBump(false); }, 120);
+              from = current;
+            }
+            if (progress < 1) requestAnimationFrame(step);
+          }
+          var raf = requestAnimationFrame(step);
+          return function () { cancelAnimationFrame(raf); };
+        }, [target]);
+
+        return { count: count, bump: bump };
+      }
+
+      function ParticipantCounter(props) {
+        var total = props.total || 5;
+        var result = useCountUp(total, 2000);
+        var count = result.count;
+        var bump = result.bump;
+        return (
+          <section className="counter-section">
+            <div className="counter-inner">
+              <div className="counter-label">🎉 Confirmados até agora</div>
+              <div className="counter-number-wrap">
+                <span className="counter-person-icon">👨‍👩‍👧‍👦</span>
+                <span className={"counter-number" + (bump ? " bump" : "")}>{count}</span>
+              </div>
+              <div className="counter-subtitle">
+                <span className="counter-pulse"></span>
+                participantes confirmados e animados!
+              </div>
+              <div className="counter-title" style={{ marginTop: 16, marginBottom: 0 }}>
+                Quanto mais cedo você confirmar, mais fácil fica organizar. Venha fazer parte desse número! 💛
+              </div>
+            </div>
+          </section>
+        );
       }
 
       function CountdownUnit(props) {
@@ -1001,6 +1123,9 @@
                 </p>
               </div>
             </section>
+
+            {/* Contador de participantes */}
+            <ParticipantCounter total={5} />
 
             {/* Informações */}
             <div id="informacoes" style={{ background: "var(--gray-100)" }}>
@@ -1321,98 +1446,4 @@
                     </a>
                   </div>
 
-                  <div className="hotel-card">
-                    <div className="hotel-name">🏨 Gran Lord Hotel</div>
-                    <div>
-                      <span className="hotel-price">~R$ 355 / noite</span>
-                    </div>
-                    <div className="hotel-note">
-                      Hospedagem completa no centro de Pará de Minas, com café
-                      da manhã incluso e estacionamento coberto.
-                    </div>
-                    <a
-                      className="hotel-link"
-                      href="https://www.granlordhotel.com.br/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      🔗 Ver site / Reservar
-                    </a>
-                  </div>
-
-                  <div className="hotel-card">
-                    <div className="hotel-name">🏨 Suntory Business Hotel</div>
-                    <div>
-                      <span className="hotel-price">~R$ 300 / noite</span>
-                    </div>
-                    <div className="hotel-note">
-                      Opção mais econômica, com boa estrutura para negócios e
-                      lazer em Pará de Minas.
-                    </div>
-                    <a
-                      className="hotel-link"
-                      href="https://www.suntoryhotel.com.br/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      🔗 Ver site / Reservar
-                    </a>
-                  </div>
-                </div>
-                <div className="hotel-disclaimer">
-                  ⭐ Existem outros hotéis na cidade com preços e qualidades
-                  variadas — os destacados acima são os mais bem avaliados pelos
-                  hóspedes. Preços aproximados por noite, sujeitos a variação
-                  conforme data e tipo de quarto. Confirme disponibilidade
-                  diretamente com o hotel.
-                </div>
-              </div>
-            </section>
-
-            {/* Organizadores */}
-            <div style={{ background: "var(--gray-100)" }}>
-              <div className="section" style={{ textAlign: "center" }}>
-                <div className="section-label">Organização 2026</div>
-                <h2 className="section-title">Quem está por trás</h2>
-                <p className="section-desc" style={{ margin: "0 auto 40px" }}>
-                  O 13º Encontro é organizado com muito carinho pela família da
-                  Margarete 💛
-                </p>
-                <div className="org-grid">
-                  {[
-                    { name: "Margarete", lead: true },
-                    { name: "Rodolfo", lead: false },
-                    { name: "Carla", lead: false },
-                    { name: "Mariane", lead: false },
-                    { name: "Ana Clara", lead: false },
-                  ].map(function (person) {
-                    return (
-                      <div
-                        className={"org-pill" + (person.lead ? " lead" : "")}
-                        key={person.name}
-                      >
-                        <div className="org-avatar">
-                          {person.name.charAt(0)}
-                        </div>
-                        <span>{person.name}</span>
-                        {person.lead && (
-                          <span className="org-lead-tag">
-                            Organizadora-chefe ⭐
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* Footer */}
-            <footer className="footer">
-              <div className="footer-logo">🌻 Família Nascimento</div>
-              <div className="footer-tagline">
-                13 encontros inesquecíveis — e muitos mais por vir!
-              </div>
-              <hr />
-              <div className="footer-copy">
-                13º E
+                  <div classNa
