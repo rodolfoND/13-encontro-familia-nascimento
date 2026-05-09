@@ -868,62 +868,16 @@
         return count;
       }
 
-      var CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR2OPkkti64iuZp6arLC90H6Pnz4fVBhWZ1k18IuChv-0BkpHDpJyoikfmv67PQTG4E8f-dcWM4mEMs/pub?gid=0&single=true&output=csv";
-
-      function parseCSVLine(line) {
-        var result = [], inQuote = false, current = '';
-        for (var i = 0; i < line.length; i++) {
-          var ch = line[i];
-          if (ch === '"') { inQuote = !inQuote; }
-          else if (ch === ',' && !inQuote) { result.push(current.trim()); current = ''; }
-          else { current += ch; }
-        }
-        result.push(current.trim());
-        return result;
-      }
-
-      function ParticipantCounter() {
-        var totalState = useState(null);
-        var total = totalState[0];
-        var setTotal = totalState[1];
-        var count = useCountUp(total || 0, 2200);
-
-        useEffect(function () {
-          fetch(CSV_URL)
-            .then(function (r) { return r.text(); })
-            .then(function (text) {
-              var lines = text.trim().split('\n');
-              var headers = parseCSVLine(lines[0]);
-              var confirmadoIdx = -1;
-              for (var h = 0; h < headers.length; h++) {
-                if (headers[h].replace(/"/g, '').trim() === 'Confirmado?') {
-                  confirmadoIdx = h; break;
-                }
-              }
-              if (confirmadoIdx === -1) return;
-              var confirmed = 0;
-              for (var i = 1; i < lines.length; i++) {
-                if (!lines[i].trim()) continue;
-                var cols = parseCSVLine(lines[i]);
-                if (cols[confirmadoIdx] && cols[confirmadoIdx].replace(/"/g, '').trim() === 'Sim') {
-                  confirmed++;
-                }
-              }
-              setTotal(confirmed);
-            })
-            .catch(function () { setTotal(17); });
-        }, []);
-
+      function ParticipantCounter(props) {
+        var total = props.total || 17;
+        var count = useCountUp(total, 2200);
         return (
           <section className="counter-section">
             <div className="counter-inner">
               <div className="counter-label">🎉 Confirmados até agora</div>
               <div className="counter-number-wrap">
                 <span className="counter-person-icon">👨‍👩‍👧‍👦</span>
-                {total === null
-                  ? <span className="counter-number" style={{opacity: 0.3}}>...</span>
-                  : <span key={count} className="counter-number">{count}</span>
-                }
+                <span key={count} className="counter-number">{count}</span>
               </div>
               <div className="counter-subtitle">
                 <span className="counter-pulse"></span>
@@ -1168,7 +1122,7 @@
             </section>
 
             {/* Contador de participantes */}
-            <ParticipantCounter />
+            <ParticipantCounter total={17} />
 
             {/* Informações */}
             <div id="informacoes" style={{ background: "var(--gray-100)" }}>
@@ -1556,4 +1510,57 @@
                   ].map(function (person) {
                     return (
                       <div
-                        className
+                        className={"org-pill" + (person.lead ? " lead" : "")}
+                        key={person.name}
+                      >
+                        <div className="org-avatar">
+                          {person.name.charAt(0)}
+                        </div>
+                        <span>{person.name}</span>
+                        {person.lead && (
+                          <span className="org-lead-tag">
+                            Organizadora-chefe ⭐
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <footer className="footer">
+              <div className="footer-logo">🌻 Família Nascimento</div>
+              <div className="footer-tagline">
+                13 encontros inesquecíveis — e muitos mais por vir!
+              </div>
+              <hr />
+              <div className="footer-copy">
+                13º Encontro Família Nascimento · 19–20 de Setembro de 2026 ·
+                Organização: Margarete e família
+              </div>
+              <div className="footer-copy">
+                Desenvolvido por{" "}
+                <a
+                  href="https://www.rodolfonascimento.dev.br/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "var(--yellow-300)",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  Rodolfo Nascimento
+                </a>
+              </div>
+            </footer>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
